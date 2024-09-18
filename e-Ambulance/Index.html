@@ -1,131 +1,1501 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>LifeLink - eAmbulance Service</title>
+    <title>LifeLink</title>
 
-    <!-- Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicon link -->
+    <link rel="shortcut icon" href="Images/logo-ambulance1.png" type="image/x-icon">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- font awesome links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* Loader Styles */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            /* Light grey */
+            border-top: 8px solid #007bff;
+            /* Blue */
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Content will appear after loader disappears */
+        #content {
+            display: none;
+        }
+
+        /* Navbar Logo */
+        .navbar-brand img {
+            max-width: 50px;
+            margin-right: 10px;
+        }
+
+        /* Custom Hover Effects */
+        .scale-on-hover {
+            transition: transform 0.3s ease;
+        }
+
+        .scale-on-hover:hover {
+            transform: scale(1.1);
+        }
+
+        /* loader styling start */
+
+        /* Loader Container */
+        #loader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            /* Background color during loading */
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Loader Image Animation */
+        .lds-logo {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: spin 2s infinite ease-in-out;
+            /* Animation effect */
+        }
+
+        /* Image size can be adjusted as needed */
+        .lds-logo img {
+            width: 80px;
+            /* You can adjust the size of the logo */
+            height: 80px;
+            object-fit: contain;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        /* Spin Animation */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Bounce Animation */
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* loader styling end */
+
+        /* Reset. */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Panels. */
+        .splitview {
+            position: relative;
+            width: 100%;
+            min-height: 45vw;
+            overflow: hidden;
+        }
+
+        .panel {
+            position: absolute;
+            width: 100vw;
+            min-height: 45vw;
+            overflow: hidden;
+        }
+
+        .panel .content {
+            position: absolute;
+            width: 100vw;
+            min-height: 45vw;
+            color: #FFF;
+        }
+
+        .panel .description {
+            width: 25%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .panel img {
+            box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.15);
+            width: 35%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        .bottom {
+            background-color: rgb(44, 44, 44);
+            z-index: 1;
+        }
+
+        .bottom .description {
+            right: 5%;
+        }
+
+        .top {
+            background-color: #007bff;
+            z-index: 2;
+            width: 50vw;
+
+            /*-webkit-clip-path: polygon(60% 0, 100% 0, 100% 100%, 40% 100%);
+    clip-path: polygon(60% 0, 100% 0, 100% 100%, 40% 100%);*/
+        }
+
+        .top .description {
+            left: 5%;
+        }
+
+        /* Handle. */
+        .handle {
+            height: 100%;
+            position: absolute;
+            display: block;
+            background-color: rgb(253, 171, 0);
+            width: 5px;
+            top: 0;
+            left: 50%;
+            z-index: 3;
+        }
+
+        /* Skewed. */
+        .skewed .handle {
+            top: 50%;
+            transform: rotate(30deg) translateY(-50%);
+            height: 200%;
+            -webkit-transform-origin: top;
+            -moz-transform-origin: top;
+            transform-origin: top;
+        }
+
+        .skewed .top {
+            transform: skew(-30deg);
+            margin-left: -1000px;
+            width: calc(50vw + 1000px);
+        }
+
+        .skewed .top .content {
+            transform: skew(30deg);
+            margin-left: 1000px;
+        }
+
+        /* Responsive. */
+        @media (max-width: 900px) {
+            body {
+                font-size: 75%;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var parent = document.querySelector('.splitview'),
+                topPanel = parent.querySelector('.top'),
+                handle = parent.querySelector('.handle'),
+                skewHack = 0,
+                delta = 0;
+
+            // If the parent has .skewed class, set the skewHack var.
+            if (parent.className.indexOf('skewed') != -1) {
+                skewHack = 1000;
+            }
+
+            parent.addEventListener('mousemove', function (event) {
+                // Get the delta between the mouse position and center point.
+                delta = (event.clientX - window.innerWidth / 2) * 0.5;
+
+                // Move the handle.
+                handle.style.left = event.clientX + delta + 'px';
+
+                // Adjust the top panel width.
+                topPanel.style.width = event.clientX + skewHack + delta + 'px';
+            });
+        });
+    </script>
 </head>
-<body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">LifeLink</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                </ul>
-            </div>
+<body onload="hideLoader()">
+
+    <div id="loader">
+        <div class="lds-logo">
+            <img src="Images/logo-ambulance1.png" alt="Ambulance Logo">
         </div>
-    </nav>
+    </div>
 
-    <!-- Landing Section -->
-    <header class="landing-section text-center text-white">
-        <div class="overlay">
+    <!-- Main Content -->
+    <div id="content" style="display: none;">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
             <div class="container">
-                <h1 class="display-4">Fast and Reliable eAmbulance Service</h1>
-                <p class="lead">Get timely emergency medical transportation with LifeLink.</p>
-                <a href="#services" class="btn btn-primary btn-lg">Find an eAmbulance</a>
-            </div>
-        </div>
-    </header>
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img src="images/logo-ambulance1.png" alt="Logo" class="logo me-2"> LifeLink
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#types">Category</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
 
-    <!-- About Us Section -->
-    <section id="about" class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>About LifeLink</h2>
-                    <p>LifeLink is dedicated to providing fast and reliable eAmbulance services to individuals during medical emergencies. Our platform allows users to search, sort, and find the most suitable ambulances based on their preferences and needs.</p>
-                </div>
-                <div class="col-md-6">
-                    <img src="images/ambulance.png" alt="eAmbulance" class="img-fluid">
+                    <!-- Search form -->
+                    <form class="search-form d-flex ms-3" role="search">
+                        <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-primary search-btn" type="button"><i
+                                class="fas fa-search"></i></button>
+                    </form>
+
+                    <!-- Login/Signup Button (visible before login) -->
+                    <div class="ms-3">
+                        <a href="login.html">
+                        <button class="btn btn-primary" id="loginSignupBtn">Login/Signup</button>
+                        </a>
+                    </div>
+
+                    <!-- Profile Dropdown (visible after login) -->
+                    <!-- <button class="btn btn-primary" id="loginSignupBtn" >Login/Signup</button> -->
+
+                    <!-- <div class="dropdown ms-3 d-none" id="profileDropdown">
+                        <button class="btn dropdown-toggle d-flex align-items-center" type="button"
+                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="images/avatar.png" alt="Avatar" class="rounded-circle me-2"
+                                style="width: 30px; height: 30px;">
+                            <span>John Doe</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">My Dashboard</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </div> -->
                 </div>
             </div>
-        </div>
-    </section>
+        </nav>
 
-    <!-- Services Section -->
-    <section id="services" class="bg-light py-5">
-        <div class="container">
-            <h2 class="text-center">Our Services</h2>
-            <div class="row text-center">
-                <div class="col-md-4">
-                    <i class="fas fa-ambulance fa-3x mb-3"></i>
-                    <h4>Prompt Ambulance Services</h4>
-                    <p>Access the nearest available eAmbulance services during emergencies with just a few clicks.</p>
-                </div>
-                <div class="col-md-4">
-                    <i class="fas fa-filter fa-3x mb-3"></i>
-                    <h4>Search & Filter</h4>
-                    <p>Filter and sort ambulances by type, cost, availability, and more to find what suits your needs.</p>
-                </div>
-                <div class="col-md-4">
-                    <i class="fas fa-user-shield fa-3x mb-3"></i>
-                    <h4>Reliable Support</h4>
-                    <p>We are available 24/7 to provide you with safe, reliable, and rapid emergency services.</p>
+        <!-- SEARCH ki styling start -->
+        <style>
+            /* Navbar Search Styling */
+            .search-form {
+                position: relative;
+                transition: all 0.4s ease;
+            }
+
+            .search-input {
+                width: 0;
+                opacity: 0;
+                border: none;
+                transition: width 0.4s ease, opacity 0.4s ease;
+            }
+
+            .search-form.active .search-input {
+                width: 200px;
+                /* Increase the width when active */
+                opacity: 1;
+                padding: 0.375rem 0.75rem;
+                border: 1px solid #ccc;
+            }
+
+            .search-btn {
+                background-color: #007bff;
+                border-color: #007bff;
+                color: white;
+                padding: 0.5rem;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+            .search-btn:hover {
+                background-color: #0056b3;
+            }
+
+            .navbar-brand {
+                font-family: 'Helvetica', sans-serif;
+                font-weight: bold;
+                font-size: 1.5rem;
+                color: #007bff;
+            }
+
+            /* Add custom font for navigation links */
+            .nav-link {
+                font-family: 'Arial', sans-serif;
+                font-weight: 600;
+                font-size: 1.1rem;
+            }
+
+            .nav-link:hover {
+                color: #0056b3;
+            }
+
+            .search-input:focus {
+                outline: none;
+                box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            }
+
+            /* Profile Dropdown Styling */
+            .dropdown-toggle::after {
+                display: none;
+            }
+
+            .dropdown-menu {
+                min-width: 200px;
+                padding: 0.5rem;
+            }
+
+            .dropdown-item:hover {
+                background-color: #f8f9fa;
+            }
+
+            .navbar .btn-primary {
+                background-color: #007bff;
+                border: none;
+            }
+
+            .navbar .btn-primary:hover {
+                background-color: #0056b3;
+            }
+        </style>
+        <!-- SEARCH ki styling end -->
+
+        <!-- SEARCH ki script start -->
+        <script>
+            document.querySelector('.search-btn').addEventListener('click', function () {
+                const searchForm = document.querySelector('.search-form');
+                searchForm.classList.toggle('active');
+                if (searchForm.classList.contains('active')) {
+                    document.querySelector('.search-input').focus();
+                }
+            });
+
+            // Simulate login and replace Login/Signup button with Profile dropdown
+            const loginSignupBtn = document.getElementById('loginSignupBtn');
+            const profileDropdown = document.getElementById('profileDropdown');
+
+            loginSignupBtn.addEventListener('click', function () {
+                loginSignupBtn.classList.add('d-none');
+                profileDropdown.classList.remove('d-none');
+            });
+        </script>
+        <!-- SEARCH ki script end -->
+
+        <!-- navbar ki styling -->
+        <style>
+            /* Navbar Styling */
+            .navbar {
+                font-family: 'Poppins', sans-serif;
+                padding: 1rem 0;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-brand {
+                font-size: 1.5rem;
+                font-weight: 600;
+                transition: transform 0.3s ease;
+            }
+
+            .navbar-brand:hover {
+                transform: scale(1.1);
+            }
+
+            .nav-item .nav-link {
+                font-size: 1rem;
+                padding: 0.75rem 1rem;
+                transition: color 0.3s ease, background-color 0.3s ease;
+            }
+
+            .nav-item .nav-link:hover {
+                background-color: rgba(0, 123, 255, 0.1);
+                color: #007bff;
+                border-radius: 5px;
+            }
+
+            .nav-item .nav-link.active {
+                font-weight: bold;
+                color: #007bff;
+            }
+
+            .navbar-toggler-icon {
+                background-color: #007bff;
+                border-radius: 50%;
+                padding: 0.2rem;
+            }
+
+            /* Search Form */
+            .search-form {
+                transition: transform 0.3s ease;
+            }
+
+            .search-input {
+                border: none;
+                border-radius: 25px;
+                padding: 0.5rem 1rem;
+                background-color: #f1f1f1;
+            }
+
+            .search-btn {
+                border: none;
+                border-radius: 50%;
+                padding: 0.5rem;
+                background-color: #007bff;
+                color: white;
+                transition: background-color 0.3s ease;
+            }
+
+            .search-btn:hover {
+                background-color: #0056b3;
+            }
+
+            /* Navbar Scroll Animation */
+            .navbar.sticky-top {
+                transition: background-color 0.3s ease;
+            }
+
+            .navbar.scrolled {
+                background-color: white;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+        <!-- navbar ki styling end -->
+
+        <!-- navbar ki script start -->
+        <script>
+            window.addEventListener('scroll', function () {
+                var navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        </script>
+        <!-- navbar ki script end -->
+
+        <!-- Hero Section with Full-Width Image Slider START-->
+        <div class="splitview skewed">
+            <div class="panel bottom">
+                <div class="content">
+                    <div class="description">
+                        <h1>24/7 Emergency Ambulance Service.</h1>
+                        <p style="color: rgb(216, 216, 216);">Fast, reliable, and professional healthcare assistance at
+                            your doorstep.</p>
+                    </div>
+
+                    <img src="Images/ambulance-slider.jpg!sw800" alt="Original">
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-5">
-        <div class="container">
-            <h2 class="text-center">Contact Us</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <form>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Your Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter your name">
+            <div class="panel top">
+                <div class="content">
+                    <div class="description">
+                        <h1>Immediate Medical Response.</h1>
+                        <p style="color: rgb(216, 216, 216);">Experienced paramedics available for emergencies and
+                            healthcare support.</p>
+                    </div>
+
+                    <img src="Images/ambulance-slider2.jpg" alt="Duotone">
+                </div>
+            </div>
+
+            <div class="handle"></div>
+        </div>
+        <!-- Hero Section with Full-Width Image Slider END -->
+
+
+        <!-- About Section START-->
+        <section id="about" class="bg-light py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <div class="about-image-wrapper">
+                            <img src="images/about-ambulance.jpg" class="img-fluid rounded shadow-sm" alt="About Us">
                         </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="text-center mb-4">About Us</h2>
+                        <p class="lead text-center mb-4">We are a dedicated team of healthcare professionals providing
+                            immediate ambulance services across the city. Our goal is to ensure prompt and efficient
+                            emergency care, ensuring that every patient receives the best possible treatment during
+                            critical moments.</p>
+                        <div class="about-info">
+                            <h4>Our Mission</h4>
+                            <p>To deliver high-quality ambulance services with compassion and efficiency, ensuring that
+                                every emergency is met with the highest standard of care.</p>
+                            <h4>Our Team</h4>
+                            <p>Our skilled paramedics and healthcare professionals are trained to handle all types of
+                                medical emergencies, providing both pre-hospital and emergency care with a focus on
+                                patient well-being.</p>
                         </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="4" placeholder="Your message"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <style>
+            /* About Section Styling */
+            .about-image-wrapper {
+                text-align: center;
+                overflow: hidden;
+                border-radius: 8px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                position: relative;
+            }
+
+            .about-image-wrapper img {
+                transition: transform 0.4s ease, box-shadow 0.4s ease;
+            }
+
+            .about-image-wrapper img:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+            }
+
+            .about-info h4 {
+                font-family: 'Arial', sans-serif;
+                font-weight: bold;
+                color: #007bff;
+                margin-top: 1.5rem;
+            }
+
+            .about-info p {
+                font-family: 'Arial', sans-serif;
+                font-size: 1rem;
+                line-height: 1.6;
+                color: #333;
+            }
+
+            .lead {
+                font-family: 'Arial', sans-serif;
+                font-size: 1.25rem;
+                color: #555;
+            }
+        </style>
+        <!-- About Section END-->
+
+        <!-- Types Section Start -->
+        <!-- eAmbulance Type Section -->
+        <section id="types" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Choose Your Ambulance</h2>
+                <div class="row">
+                    <!-- Ambulance Type Card 1 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 hover-scale">
+                            <img src="images/ambulance.png" class="card-img-top" alt="Basic Ambulance">
+                            <div class="card-body">
+                                <h5 class="card-title">Basic Ambulance</h5>
+                                <p class="card-text">
+                                    <strong>Size:</strong> Medium<br>
+                                    <strong>Equipment:</strong> First Aid Kit, Oxygen Cylinder<br>
+                                    <strong>Cost:</strong> $50/hour<br>
+                                    <strong>Specialization:</strong> Non-A/C, Non-ICU
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <button class="btn btn-primary scale-on-hover">Book Now</button>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                    <!-- Ambulance Type Card 2 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 hover-scale">
+                            <img src="images/ambulance.png" class="card-img-top" alt="Advanced Ambulance">
+                            <div class="card-body">
+                                <h5 class="card-title">Advanced Ambulance</h5>
+                                <p class="card-text">
+                                    <strong>Size:</strong> Large<br>
+                                    <strong>Equipment:</strong> Defibrillator, Ventilator, Oxygen Cylinder<br>
+                                    <strong>Cost:</strong> $100/hour<br>
+                                    <strong>Specialization:</strong> A/C, ICU Equipped
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <button class="btn btn-primary scale-on-hover">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ambulance Type Card 3 -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 hover-scale">
+                            <img src="images/ambulance.png" class="card-img-top" alt="ICCU Ambulance">
+                            <div class="card-body">
+                                <h5 class="card-title">ICCU Ambulance</h5>
+                                <p class="card-text">
+                                    <strong>Size:</strong> Extra Large<br>
+                                    <strong>Equipment:</strong> Full ICU Setup, Defibrillator, Ventilator, ECG
+                                    Machine<br>
+                                    <strong>Cost:</strong> $150/hour<br>
+                                    <strong>Specialization:</strong> A/C, ICCU Equipped
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <button class="btn btn-primary scale-on-hover">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- types section end -->
+
+        <!-- types section styling start -->
+        <style>
+            /* General Styling */
+            .card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border: none;
+                overflow: hidden;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
+
+            .card-title {
+                font-family: 'Arial', sans-serif;
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #007bff;
+            }
+
+            .card-text {
+                font-family: 'Arial', sans-serif;
+                font-size: 1rem;
+                color: #333;
+            }
+
+            /* Hover Effects */
+            .card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .card-img-top {
+                transition: transform 0.3s ease;
+            }
+
+            .card:hover .card-img-top {
+                transform: scale(1.1);
+            }
+
+            .btn-primary {
+                transition: background-color 0.3s ease, transform 0.3s ease;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                transform: scale(1.05);
+            }
+
+            /* Animations */
+            .fade-in {
+                animation: fadeIn 1s ease-in-out;
+            }
+
+            @keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .hover-scale:hover {
+                transform: scale(1.05);
+                transition: all 0.3s ease;
+            }
+        </style>
+        <!-- types section styling end -->
+
+        <!-- Feedback section styling start -->
+
+        <!-- Feedback section styling end -->
+
+
+        <!-- Services Section -->
+        <section id="services" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 fade-in">Our Services</h2>
+                <div class="row text-center">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 hover-effect">
+                            <img src="images/ambulance.png" class="card-img-top" alt="Emergency Ambulance">
+                            <div class="card-body">
+                                <h5 class="card-title">Emergency Ambulance</h5>
+                                <p class="card-text">Quick response to emergency situations 24/7.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 hover-effect">
+                            <img src="images/ambulance.png" class="card-img-top" alt="Emergency Ambulance">
+                            <div class="card-body">
+                                <h5 class="card-title">Emergency Ambulance</h5>
+                                <p class="card-text">Quick response to emergency situations 24/7.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 hover-effect">
+                            <img src="Images/ambulance.png" class="card-img-top" alt="Event Ambulance">
+                            <div class="card-body">
+                                <h5 class="card-title">Event Ambulance</h5>
+                                <p class="card-text">On-site medical assistance for public and private events.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- service section styling start -->
+        <style>
+            /* Services Section */
+            #services {
+                background-color: #f8f9fa;
+            }
+
+            .card {
+                border: none;
+                border-radius: 12px;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .card-img-top {
+                border-bottom: 5px solid #007bff;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+                text-align: center;
+            }
+
+            .card-title {
+                font-family: 'Poppins', sans-serif;
+                font-weight: 600;
+                font-size: 1.25rem;
+                color: #333;
+                margin-bottom: 0.75rem;
+            }
+
+            .card-text {
+                font-family: 'Roboto', sans-serif;
+                font-size: 1rem;
+                color: #666;
+            }
+
+            .card:hover {
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                transform: translateY(-10px);
+            }
+
+            .card:hover .card-img-top {
+                transform: scale(1.05);
+            }
+
+            .card-img-container {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .card-img-top {
+                transition: transform 0.3s ease;
+            }
+
+            .hover-effect {
+                position: relative;
+            }
+
+            .hover-effect::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.1);
+                transition: opacity 0.3s ease;
+                opacity: 0;
+                z-index: 1;
+            }
+
+            .hover-effect:hover::before {
+                opacity: 1;
+            }
+
+            .hover-effect .card-body {
+                position: relative;
+                z-index: 2;
+            }
+
+            .fade-in {
+                animation: fadeIn 1s ease-in-out;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+        </style>
+        <!-- service section styling end -->
+
+        <!-- Gallery Section Start -->
+        <section id="gallery" class="container py-5">
+            <h2 class="text-center mb-5">Ambulance Image Gallery</h2>
+            <div class="row g-4">
+                <!-- Gallery Item 1 -->
+                <div class="col-lg-4 col-md-6 gallery-container">
+                    <a href="#image1">
+                        <img src="Images/ambulance.png" class="gallery-photo img-fluid" alt="eAmbulance 1">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="col-lg-4 col-md-6 gallery-container">
+                    <a href="#image2">
+                        <img src="Images/ambulance.png" class="gallery-photo img-fluid" alt="eAmbulance 2">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="col-lg-4 col-md-6 gallery-container">
+                    <a href="#image3">
+                        <img src="Images/ambulance.png" class="gallery-photo img-fluid" alt="eAmbulance 3">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="col-lg-4 col-md-6 gallery-container">
+                    <a href="#image1">
+                        <img src="Images/ambulance.png" class="gallery-photo img-fluid" alt="eAmbulance 1">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="col-lg-4 col-md-6 gallery-container">
+                    <a href="#image2">
+                        <img src="Images/ambulance.png" class="gallery-photo img-fluid" alt="eAmbulance 2">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="col-lg-4 col-md-6 gallery-container">
+                    <a href="#image3">
+                        <img src="Images/ambulance.png" class="gallery-photo img-fluid" alt="eAmbulance 3">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Modals -->
+        <div id="image1" class="lightbox-view mt-5">
+            <a href="#" class="lightbox-close-btn">&times;</a>
+            <img src="Images/ambulance.png" alt="eAmbulance 1">
+        </div>
+
+        <div id="image2" class="lightbox-view mt-5">
+            <a href="#" class="lightbox-close-btn">&times;</a>
+            <img src="Images/ambulance.png" alt="eAmbulance 2">
+        </div>
+
+        <div id="image3" class="lightbox-view mt-5">
+            <a href="#" class="lightbox-close-btn">&times;</a>
+            <img src="Images/ambulance.png" alt="eAmbulance 3">
+        </div>
+
+        <!-- Bootstrap JS and dependencies -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Gallery Section End -->
+
+        <!-- Gallery Section Styling Start -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+            /* Custom gallery styling */
+            .gallery-container {
+                position: relative;
+                overflow: hidden;
+                border-radius: 20px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                transition: transform 0.4s ease, box-shadow 0.4s ease;
+            }
+
+            .gallery-container:hover {
+                transform: translateY(-12px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            }
+
+            /* Image styling */
+            .gallery-photo {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease-in-out;
+            }
+
+            /* Image hover zoom */
+            .gallery-container:hover .gallery-photo {
+                transform: scale(1.15);
+            }
+
+            /* Overlay customization */
+            .gallery-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            }
+
+            .gallery-container:hover .gallery-overlay {
+                opacity: 1;
+            }
+
+            /* Overlay content */
+            .gallery-overlay i {
+                font-size: 35px;
+                color: #fff;
+            }
+
+            /* Lightbox styling */
+            .lightbox-view {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+
+            .lightbox-view img {
+                max-width: 85%;
+                max-height: 85%;
+                border-radius: 15px;
+            }
+
+            .lightbox-view:target {
+                display: flex;
+            }
+
+            /* Close button styling */
+            .lightbox-close-btn {
+                position: absolute;
+                top: 50px;
+                /* Adjusted to move the button lower */
+                right: 30px;
+                font-size: 40px;
+                color: white;
+                text-decoration: none;
+            }
+        </style>
+        <!-- Gallery Section Styling End -->
+
+
+
+        <!-- Catalog Section start-->
+
+        <!-- <style>
+            .catalog-section {
+                padding: 60px 0;
+                background: #f0f4f8;
+            }
+
+            .catalog-card {
+                border: none;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+            .catalog-card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+
+            .catalog-card img {
+                border-radius: 10px 10px 0 0;
+                transition: opacity 0.3s;
+            }
+
+            .catalog-card:hover img {
+                opacity: 0.9;
+            }
+
+            .catalog-card-body {
+                padding: 20px;
+            }
+
+            .catalog-card-title {
+                font-size: 1.25rem;
+                margin-bottom: 10px;
+            }
+
+            .catalog-card-text {
+                color: #6c757d;
+                margin-bottom: 20px;
+            }
+
+            .catalog-card-price {
+                font-size: 1.5rem;
+                color: #007bff;
+            }
+
+            .btn-primary {
+                border-radius: 5px;
+                background-color: #007bff;
+                border: none;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+        </style> -->
+
+        <!-- <section class="catalog-section">
+            <div class="container">
+                <div class="row">
+                  
+                    <div class="col-md-4 mb-4">
+                        <div class="card catalog-card">
+                            <img src="Images/ambulance-slider.jpg!sw800" class="card-img-top" alt="Ambulance Type 1">
+                            <div class="card-body catalog-card-body">
+                                <h5 class="card-title catalog-card-title">Ambulance Type 1</h5>
+                                <p class="card-text catalog-card-text">A brief description of Ambulance Type 1 with its
+                                    features and benefits.</p>
+                                <p class="catalog-card-price">$500 - $800</p>
+                                <a href="#" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                 
+                    <div class="col-md-4 mb-4">
+                        <div class="card catalog-card">
+                            <img src="Images/ambulance-slider.jpg!sw800" class="card-img-top" alt="Ambulance Type 2">
+                            <div class="card-body catalog-card-body">
+                                <h5 class="card-title catalog-card-title">Ambulance Type 2</h5>
+                                <p class="card-text catalog-card-text">A brief description of Ambulance Type 2 with its
+                                    features and benefits.</p>
+                                <p class="catalog-card-price">$600 - $900</p>
+                                <a href="#" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-4 mb-4">
+                        <div class="card catalog-card">
+                            <img src="Images/ambulance-slider.jpg!sw800" class="card-img-top" alt="Ambulance Type 3">
+                            <div class="card-body catalog-card-body">
+                                <h5 class="card-title catalog-card-title">Ambulance Type 3</h5>
+                                <p class="card-text catalog-card-text">A brief description of Ambulance Type 3 with its
+                                    features and benefits.</p>
+                                <p class="catalog-card-price">$700 - $1000</p>
+                                <a href="#" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+        <!-- Catalog Section end-->
+
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-5 fade-in">
+            <div class="container">
+                <h2 class="text-center mb-4">Contact Us</h2>
+                <div class="row">
+                    <!-- Contact Form -->
+                    <div class="col-lg-6 mb-4">
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control input-field" id="name"
+                                    placeholder="Enter your name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control input-field" id="email"
+                                    placeholder="Enter your email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control input-field" id="message" rows="4"
+                                    placeholder="Enter your message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary scale-on-hover">Submit</button>
+                        </form>
+                    </div>
+                    <!-- Contact Details and Map -->
+                    <div class="col-lg-6">
+                        <h3>Contact Details</h3>
+                        <p><strong>Phone:</strong> 123-456-7890</p>
+                        <p><strong>Email:</strong> info@eambulance.com</p>
+                        <p><strong>Address:</strong> 123 Medical Road, Health City</p>
+                        <!-- Embedded Map -->
+                        <div class="map-container mt-4">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.089042972266!2d-122.3982110846349!3d37.78248597975829!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809f7f6e2cf7%3A0x8a0e39f62fc2e1f1!2s123%20Medical%20Road%2C%20Health%20City!5e0!3m2!1sen!2sus!4v1633031234567!5m2!1sen!2sus"
+                                width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- contact section styling start -->
+        <style>
+            /* Contact Section Styling */
+            .fade-in {
+                animation: fadeIn 1s ease-in-out;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            .input-field {
+                border-radius: 0.5rem;
+                border: 1px solid #ccc;
+                transition: border-color 0.3s ease;
+            }
+
+            .input-field:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+            }
+
+            .scale-on-hover {
+                transition: transform 0.3s ease, background-color 0.3s ease;
+            }
+
+            .scale-on-hover:hover {
+                transform: scale(1.05);
+                background-color: #0056b3;
+            }
+
+            .map-container {
+                border-radius: 0.5rem;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            h3 {
+                font-family: 'Arial', sans-serif;
+                font-weight: bold;
+                color: #333;
+            }
+
+            p {
+                font-family: 'Arial', sans-serif;
+                color: #666;
+            }
+        </style>
+        <!-- contact section styling end -->
+
+
+        <!-- Footer -->
+        <footer class="container-fluid bg-light">
+            <div class="container footer-content">
+                <div class="footer-logo">
+                    <img src="Images/logo-ambulance1.png" alt="E-Ambulance Logo">
+                    <h1>LifeLink</h1> <!-- Add hospital name here -->
+                </div>
+                <div>
+                    <h5>Quick Links</h5>
+                    <p><a href="#">Home</a></p>
+                    <p><a href="#">About Us</a></p>
+                    <p><a href="#">Services</a></p>
+                    <p><a href="#">Contact</a></p>
+                    <p><a href="#">FAQs</a></p>
+                </div>
+                <div>
+                    <h5>Contact Us</h5>
+                    <p>Email: info@eambulance.com</p>
+                    <p>Phone: +123 456 7890</p>
+                    <p>Address: 123 Ambulance St, City, Country</p>
+                </div>
+                <div>
+                    <h5>Feedback</h5>
+                    <form class="feedback-form">
+                        <div class="form-group my-2">
+                            <!-- <label for="feedback-name">Name</label> -->
+                            <input type="text" class="form-control" id="feedback-name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group my-2">
+                            <!-- <label for="feedback-email">Email address</label> -->
+                            <input type="email" class="form-control" id="feedback-email" placeholder="Your Email"
+                                required>
+                        </div>
+                        <div class="form-group my-2">
+                            <!-- <label for="feedback-message">Your Feedback</label> -->
+                            <textarea class="form-control" id="feedback-message" rows="3" placeholder="Your Feedback"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary my-2">Submit Feedback</button>
                     </form>
                 </div>
-                <div class="col-md-6">
-                    <h4>Our Office</h4>
-                    <p>Email: contact@lifelink.com</p>
-                    <p>Phone: +1 (555) 123-4567</p>
-                    <p>Address: 123 Emergency St, City, Country</p>
-                </div>
             </div>
-        </div>
-    </section>
+        </footer>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-3 text-center">
-        <p>&copy; 2024 LifeLink. All rights reserved.</p>
-    </footer>
 
-    <!-- Custom JS -->
+        <!-- Bootstrap JS and dependencies -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+        <style>
+            /* Footer Styling */
+            footer {
+                color: #fff;
+                padding: 2rem 0;
+            }
+
+            .footer-logo {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .footer-logo img {
+                width: 50px;
+                /* Adjust the size of the logo */
+                height: auto;
+            }
+
+            .footer-logo h1 {
+                margin-left: 1rem;
+                font-size: 2rem;
+                font-weight: bold;
+                color: #007bff;
+                line-height: 1.2;
+            }
+
+            .footer-logo:hover img {
+                transform: scale(1.05);
+                /* Slightly zoom the logo on hover */
+                transition: transform 0.3s ease;
+            }
+
+            .footer-social a {
+                color: #fff;
+                font-size: 1.75rem;
+                margin: 0 0.75rem;
+                transition: color 0.3s ease, transform 0.3s ease;
+            }
+
+            .footer-social a:hover {
+                color: #007bff;
+                /* Highlight color */
+                transform: scale(1.1);
+            }
+
+            .footer-content {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .footer-content div {
+                flex: 1;
+                min-width: 200px;
+            }
+
+            .footer-content h5 {
+                margin-bottom: 1rem;
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #007bff;
+                /* Section title color */
+            }
+
+            .footer-content p,
+            .footer-content a {
+                font-size: 0.875rem;
+                color: black;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .footer-content a:hover {
+                color: #007bff;
+                /* Highlight color */
+            }
+
+            .feedback-form .form-control {
+                border-radius: 5px;
+            }
+
+            .feedback-form .btn-primary {
+                border-radius: 5px;
+                background-color: #007bff;
+                /* Button background color */
+                border: none;
+            }
+
+            .feedback-form .btn-primary:hover {
+                background-color: #0056b3;
+                /* Darker shade for hover */
+            }
+
+            /* Responsive Adjustments */
+            @media (max-width: 768px) {
+                .footer-content {
+                    text-align: center;
+                }
+
+                .footer-logo {
+                    flex-direction: column;
+                    align-items: center;
+                    margin-bottom: 2rem;
+                }
+
+                .footer-logo h1 {
+                    font-size: 1.5rem;
+                    margin-left: 0;
+                    margin-top: 0.5rem;
+                }
+
+                .footer-social a {
+                    font-size: 1.5rem;
+                }
+
+                .feedback-form input[type="text"],
+                .feedback-form input[type="email"],
+                .feedback-form textarea,
+                .feedback-form button {
+                    width: 100%;
+                    margin: 0;
+                }
+            }
+        </style>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+
+    </script>
+
+
 </body>
+
 </html>

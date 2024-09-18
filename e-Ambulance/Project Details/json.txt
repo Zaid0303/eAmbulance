@@ -1,0 +1,41 @@
+{
+  "eambulances": [
+    {
+      "ambulance_id": 1,
+      "type": "ICU",
+      "size": "Medium",
+      "cost": 25,
+      "equipment": "A/C, ICU",
+      "availability": "Available",
+      "region": "Chicago",
+      "image_url": "/images/ambulance1.jpg"
+    },
+    {
+      "ambulance_id": 2,
+      "type": "Basic",
+      "size": "Small",
+      "cost": 10,
+      "equipment": "Non-A/C",
+      "availability": "Unavailable",
+      "region": "New York",
+      "image_url": "/images/ambulance2.jpg"
+    }
+  ],
+  "feedbacks": [
+    {
+      "feedback_id": 1,
+      "user_name": "John Doe",
+      "email": "johndoe@gmail.com",
+      "message": "Great service, very reliable!",
+      "date": "2023-09-18"
+    }
+  ],
+  "regions": [
+    { "region_id": 1, "region_name": "Chicago" },
+    { "region_id": 2, "region_name": "New York" }
+  ],
+  "ambulance_types": [
+    { "type_id": 1, "type_name": "ICU" },
+    { "type_id": 2, "type_name": "Basic" }
+  ]
+}
