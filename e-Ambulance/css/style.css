@@ -1,0 +1,43 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Landing Section */
+.landing-section {
+    height: 100vh;
+    background: url('../images/ambulance-bg.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.landing-section .overlay {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 100px 0;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+p {
+    font-size: 1.1rem;
+}
+
+/* About Section */
+#about img {
+    border-radius: 10px;
+}
+
+/* Services Section */
+#services i {
+    color: #007bff;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: #fff;
+}
