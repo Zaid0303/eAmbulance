@@ -1,3 +1,48 @@
+<?php
+session_start();
+error_reporting(0);
+include('config.php');
+
+if (isset($_POST['LogIn'])) {
+    $useremail = $_POST['useremail'];  // This should be used in the queries
+    $password = md5($_POST['password']);
+
+    // Check if user is an Users (tbllogin_users table)
+    $queryUser = mysqli_query($connection, "SELECT ID FROM tbllogin_users WHERE `email` ='$useremail' AND `password` ='$password'");
+    $retUser = mysqli_fetch_array($queryUser);
+
+    // Check if user is an admin (tbladmin table)
+    $queryAdmin = mysqli_query($connection, "SELECT ID FROM tbladmin WHERE UserName='$useremail' AND Password='$password'");
+    $retAdmin = mysqli_fetch_array($queryAdmin);
+
+    // Check if user is a driver (tblambulance table)
+    $queryDriver = mysqli_query($connection, "SELECT ID FROM tblambulance WHERE Ablemail='$useremail' AND Ablpass='$password'");
+    $retDriver = mysqli_fetch_array($queryDriver);
+
+    if ($retUser) {
+        // User login successful
+        $_SESSION['userid'] = $retUser['ID'];
+        $_SESSION['userName'] = $retName['username'];
+        $_SESSION['userImage'] = $retImage['img'];
+        $_SESSION['role'] = 'User'; // Set user role to User
+        header('location:index.php');
+    } elseif ($retDriver) {
+        // Driver login successful
+        $_SESSION['driverid'] = $retDriver['ID'];
+        $_SESSION['role'] = 'driver'; // Set user role to driver
+        header('location:dashboard.php');
+    } elseif ($retAdmin) {
+        // Admin login successful
+        $_SESSION['eahpaid'] = $retAdmin['ID'];
+        $_SESSION['role'] = 'admin'; // Set user role to admin
+        header('location:dashboard.php');
+    } else {
+        echo "<script>alert('Invalid Details.');</script>";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +50,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Lifelink</title>
-    
+
     <!-- Favicon Link -->
     <link rel="shortcut icon" href="Images/logo-ambulance1.png" type="image/x-icon">
 
@@ -147,23 +192,38 @@
             margin-top: 30px;
             color: #fff;
         }
+
+        /* goback arrow */
+        #butt {
+
+            display: flex;
+            justify-content: flex-start;
+        }
     </style>
 </head>
 
+
 <body>
     <div class="wrapper">
-        <form action="#">
+
+        <!-- Go back icon linking to index.php -->
+        <div id="butt" class=" mb-3">
+            <a href="index.php" class="go-back" style="color: #fff; text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i><span style="font-size: 0.8rem; margin-left:5px;"> Back to Home</span>
+            </a>
+        </div>
+        <form action="login.php" method="POST">
             <h2>Login</h2>
 
             <!-- Email field -->
             <div class="input-field">
-                <input type="text" required>
+                <input type="text" name="useremail" required>
                 <label>Enter your email</label>
             </div>
 
             <!-- Password field with show/hide icon -->
             <div class="input-field">
-                <input type="password" id="password" required>
+                <input type="password" id="password" name="password" required>
                 <label>Enter your password</label>
                 <i class="fa-regular fa-eye icon" onclick="togglePassword('password', 'toggleIcon')"
                     id="toggleIcon"></i>
@@ -181,7 +241,7 @@
 
 
             <div class="register">
-                <p>Don't have an account? <a href="Signup.html">Register</a></p>
+                <p>Don't have an account? <a href="Signup.php">Sign Up</a></p>
             </div>
         </form>
     </div>

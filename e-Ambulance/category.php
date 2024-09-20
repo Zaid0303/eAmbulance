@@ -4,103 +4,40 @@ include("Includes/nav.php");
 include("config.php");
 ?>
 
-    <style>
-        h2,
-        p,
-        h3 {
-            font-family: 'Roboto', sans-serif !important;
+<!-- Category Section -->
+<section class="team-section my-3">
+    <div class="container py-5">
+        <h2 class="styled-heading">OUR CATEGORIES</h2>
+        <div class="underline"></div>
 
-        }
-
-
-        .about-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('./Images/herobg.jpg');
-            background-size: cover;
-            color: white;
-            padding: 60px 0;
-        }
-
-        .about-section h2 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .about-section p {
-            font-size: 1.2rem;
-            line-height: 1.7;
-        }
-
-        .team-section h3 {
-            font-size: 2rem;
-            margin-top: 40px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .team-member {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .team-member img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            transition: transform 0.3s ease;
-        }
-
-        .team-member img:hover {
-            transform: scale(1.1);
-        }
-
-        .team-member h5 {
-            margin-top: 15px;
-            font-size: 1.1rem;
-            color: #007bff;
-        }
-
-        .team-member p {
-            color: #6c757d;
-        }
-
-        .hover-underline:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .about-section h2 {
-                font-size: 2.5rem;
-            }
-
-            .about-section p {
-                font-size: 1rem;
-            }
-        }
-    </style>
-
-    <!-- About Us Section -->
-    <section class="about-section text-center">
-        <div class="container">
-            <h2>OUR CATEGORIES</h2>
-            <div class="underline"></div>
-            <p class="mt-3">At Life Link Ambulance Service, we are dedicated to providing fast, reliable, and
-                compassionate medical
-                transportation. Serving various regions, our fleet of modern ambulances is equipped with
-                state-of-the-art medical technology to ensure patient safety and comfort.</p>
-            <p>Our mission is to respond swiftly in emergencies, providing critical support and care during transport to
-                medical facilities. We pride ourselves on our commitment to excellence and are trusted by hospitals,
-                communities, and individuals.</p>
+        <!-- Search and Filter Section -->
+        <div class="row mb-5 mt-5 d-flex justify-content-end">
+            <div class="col-md-4">
+                <input type="text" id="searchArea" class="form-control" placeholder="Search by Area/Region">
+            </div>
+            <div class="col-md-4">
+                <select id="priceFilter" class="form-control">
+                    <option value="all">Sort by Price</option>
+                    <option value="low">Low to High</option>
+                    <option value="high">High to Low</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="typeFilter" class="form-control">
+                    <option value="all">Filter by Type</option>
+                    <option value="Basic Ambulance">Basic Ambulance</option>
+                    <option value="Advanced Ambulance">Advanced Ambulance</option>
+                    <option value="ICCU Ambulance">ICCU Ambulance</option>
+                </select>
+            </div>
         </div>
-    </section>
 
-    <!-- Team Section -->
-    <section class="team-section">
-        <div class="container">
-            <h2 class="styled-heading my-5">MEET OUR DEDICATED DRIVERS</h2>
-            <div class="underline"></div>
-            <div class="row mt-5">
+
+        <!-- Ambulance Cards Section -->
+        <div class="row mt-5" id="ambulanceCards">
             <!-- Ambulance Type Card 1 -->
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4 ambulance-card" data-region="Chicago" data-price="50"
+                data-type="Basic Ambulance">
                 <div class="card h-100 hover-scale">
                     <img src="images/ambulance.png" class="card-img-top" alt="Basic Ambulance">
                     <div class="card-body">
@@ -118,7 +55,8 @@ include("config.php");
                 </div>
             </div>
             <!-- Ambulance Type Card 2 -->
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4 ambulance-card" data-region="New York" data-price="100"
+                data-type="Advanced Ambulance">
                 <div class="card h-100 hover-scale">
                     <img src="images/ambulance.png" class="card-img-top" alt="Advanced Ambulance">
                     <div class="card-body">
@@ -136,15 +74,15 @@ include("config.php");
                 </div>
             </div>
             <!-- Ambulance Type Card 3 -->
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4 ambulance-card" data-region="Chicago" data-price="150"
+                data-type="ICCU Ambulance">
                 <div class="card h-100 hover-scale">
                     <img src="images/ambulance.png" class="card-img-top" alt="ICCU Ambulance">
                     <div class="card-body">
                         <h5 class="card-title">ICCU Ambulance</h5>
                         <p class="card-text">
                             <strong>Size:</strong> Extra Large<br>
-                            <strong>Equipment:</strong> Full ICU Setup, Defibrillator, Ventilator, ECG
-                            Machine<br>
+                            <strong>Equipment:</strong> Full ICU Setup, Defibrillator, Ventilator, ECG Machine<br>
                             <strong>Cost:</strong> $150/hour<br>
                             <strong>Specialization:</strong> A/C, ICCU Equipped
                         </p>
@@ -154,13 +92,126 @@ include("config.php");
                     </div>
                 </div>
             </div>
-            </div>
         </div>
-    </section>
 
-    <!-- types section styling start -->
+        <p id="noResultMessage" style="display: none; text-align: center;">No result found</p>
+    </div>
+</section>
+<!-- Category Section -->
+
+<!-- JavaScript for Search, Sort, and Filter -->
+<script>
+    document.getElementById('searchArea').addEventListener('input', filterAmbulances);
+    document.getElementById('priceFilter').addEventListener('change', filterAmbulances);
+    document.getElementById('typeFilter').addEventListener('change', filterAmbulances);
+
+    function filterAmbulances() {
+        const areaInput = document.getElementById('searchArea').value.toLowerCase();
+        const priceSort = document.getElementById('priceFilter').value;
+        const typeFilter = document.getElementById('typeFilter').value;
+
+        const ambulanceCards = document.querySelectorAll('.ambulance-card');
+        let isResultFound = false;
+
+        // Filter cards based on area/region and type
+        ambulanceCards.forEach(card => {
+            const region = card.getAttribute('data-region').toLowerCase();
+            const price = parseInt(card.getAttribute('data-price'));
+            const type = card.getAttribute('data-type');
+
+            let matchesArea = region.includes(areaInput);
+            let matchesType = (typeFilter === 'all' || type === typeFilter);
+
+            if (matchesArea && matchesType) {
+                card.style.display = 'block';
+                isResultFound = true; // Set true if a match is found
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Display 'No result found' message if no matches are found
+        const noResultMessage = document.getElementById('noResultMessage');
+        if (!isResultFound) {
+            noResultMessage.style.display = 'block';
+        } else {
+            noResultMessage.style.display = 'none';
+        }
+
+        // Sort by price
+        if (priceSort !== 'all') {
+            let sortedCards = [...ambulanceCards].sort((a, b) => {
+                const priceA = parseInt(a.getAttribute('data-price'));
+                const priceB = parseInt(b.getAttribute('data-price'));
+                return priceSort === 'low' ? priceA - priceB : priceB - priceA;
+            });
+            const cardsContainer = document.getElementById('ambulanceCards');
+            cardsContainer.innerHTML = '';
+            sortedCards.forEach(card => {
+                cardsContainer.appendChild(card);
+            });
+        }
+    }
+
+</script>
+
+<!-- Category page Styling -->
 <style>
-    /* General Styling */
+    h2,
+    p,
+    h3 {
+        font-family: 'Roboto', sans-serif !important;
+
+    }
+
+    .team-section h3 {
+        font-size: 2rem;
+        margin-top: 40px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .team-member {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .team-member img {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        transition: transform 0.3s ease;
+    }
+
+    .team-member img:hover {
+        transform: scale(1.1);
+    }
+
+    .team-member h5 {
+        margin-top: 15px;
+        font-size: 1.1rem;
+        color: #007bff;
+    }
+
+    .team-member p {
+        color: #6c757d;
+    }
+
+    .hover-underline:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .about-section h2 {
+            font-size: 2.5rem;
+        }
+
+        .about-section p {
+            font-size: 1rem;
+        }
+    }
+
+    /* Category Cards Styling */
     strong {
         font-family: "Roboto", sans-serif;
     }
@@ -233,10 +284,9 @@ include("config.php");
         transition: all 0.3s ease;
     }
 </style>
-<!-- types section styling end -->
+<!-- Category page Styling -->
 
 
-   
 <?php
 include("Includes/footer.php");
 ?>

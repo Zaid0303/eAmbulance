@@ -79,11 +79,8 @@ include("config.php");
         <div class="row align-items-center">
             <?php
             $ret = mysqli_query($connection, "SELECT * FROM `about`");
-            $cnt = 1;
             while ($row = mysqli_fetch_array($ret)) {
-
                 ?>
-
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="about-image-wrapper">
                         <img src="images/about-ambulance.jpg" class="img-fluid rounded shadow-sm" alt="About Us">
@@ -92,56 +89,48 @@ include("config.php");
                 <div class="col-lg-6">
                     <h2 class="styled-heading">ABOUT US</h2>
                     <div class="underline"></div>
-                    <p class="lead text-center mt-4"><?php echo $row['PageDescription']; ?></p>
-                    <!-- <button class="btn btn-primary scale-on-hover text-center jus">Show More</button> -->
 
+                    <!-- Short Description -->
+                    <p class="lead text-center mt-4" id="shortDescription">
+                        <?php echo substr($row['PageDescription'], 0, 150); ?>...
+                    </p>
+
+                    <!-- Full Description (Hidden by default) -->
+                    <p class="lead text-center mt-4" id="fullDescription" style="display: none;">
+                        <?php echo $row['PageDescription']; ?>
+                    </p>
+
+                    <!-- Show More / Show Less Button -->
+                    <button id="showMoreBtn" class="btn btn-primary scale-on-hover text-center mt-3">
+                        Show More
+                    </button>
                 </div>
-            <?php
+                <?php
             }
             ?>
         </div>
     </div>
 </section>
 
-<style>
-    /* About Section Styling */
-    .about-image-wrapper {
-        text-align: center;
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        position: relative;
-    }
+<script>
+    document.getElementById('showMoreBtn').addEventListener('click', function () {
+        const shortDescription = document.getElementById('shortDescription');
+        const fullDescription = document.getElementById('fullDescription');
+        const showMoreBtn = document.getElementById('showMoreBtn');
 
-    .about-image-wrapper img {
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
+        // Toggle between showing the short and full descriptions
+        if (fullDescription.style.display === 'none') {
+            fullDescription.style.display = 'block';
+            shortDescription.style.display = 'none';
+            showMoreBtn.textContent = 'Show Less';
+        } else {
+            fullDescription.style.display = 'none';
+            shortDescription.style.display = 'block';
+            showMoreBtn.textContent = 'Show More';
+        }
+    });
+</script>
 
-    .about-image-wrapper img:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-    }
-
-    .about-info h4 {
-        font-family: 'Arial', sans-serif;
-        font-weight: bold;
-        color: #007bff;
-        margin-top: 1.5rem;
-    }
-
-    .about-info p {
-        font-family: 'Arial', sans-serif;
-        font-size: 1rem;
-        line-height: 1.6;
-        color: #333;
-    }
-
-    .lead {
-        font-family: "Roboto", sans-serif;
-        font-size: 1.25rem;
-        color: #555;
-    }
-</style>
 <!-- About Section END-->
 
 <!-- Types Section Start -->

@@ -1,3 +1,48 @@
+<?php
+include('config.php');
+
+if (isset($_POST['SignUp'])) {
+    $user_name = $_POST['u_name'];
+    $user_email = $_POST['u_email'];
+    $user_pass = $_POST['u_pass'];
+    $user_RPpass = $_POST['u_RPpass'];
+
+    if ($user_pass == $user_RPpass) {
+        $hashPass = md5($user_pass);
+
+        $check_email = "SELECT * from `tbllogin_users` where `email` = '$user_email' ";
+        $run_email = mysqli_query($connection, $check_email);
+        if (mysqli_num_rows($run_email) > 0) {
+            echo "<script> 
+                alert('Email already exist');
+                window.location.href='Signup.php'
+                </script>";
+        } else {
+            $user_insert = "INSERT INTO `tbllogin_users` (`ID`, `username`, `email`, `password`) 
+                VALUES (NULL, '$user_name', '$user_email', '$hashPass')";
+            $user_result = mysqli_query($connection, $user_insert);
+            if ($user_result) {
+                echo "<script> 
+                alert('Registration successful');
+                window.location.href='login.php'
+                </script>";
+            } else {
+                echo "<script> 
+                alert('Registration failed');
+                // window.location.href='Signup.php'
+                </script>";
+            }
+
+        }
+    } else {
+        echo "<script> 
+            alert('Password not matched');
+            window.location.href='form.php'
+            </script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -139,25 +184,37 @@
             margin-top: 30px;
             color: #fff;
         }
+
+        /* goback arrow */
+        #butt {
+
+            display: flex;
+            justify-content: flex-start;
+        }
     </style>
 </head>
 
 <body>
     <div class="wrapper">
-        <form action="#">
+        <div id="butt" class=" mb-3">
+            <a href="login.php" class="go-back" style="color: #fff; text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+        </div>
+        <form action="Signup.php" method="POST">
             <h2>Sign Up</h2>
             <div class="input-field">
-                <input type="text" required>
+                <input type="text" name="u_name" required>
                 <label>Enter your name</label>
             </div>
             <div class="input-field">
-                <input type="email" required>
+                <input type="email" name="u_email" required>
                 <label>Enter your email</label>
             </div>
 
             <!-- Password field with show/hide icon -->
             <div class="input-field">
-                <input type="password" id="password" required>
+                <input type="password" id="password" name="u_pass" required>
                 <label>Enter your password</label>
                 <i class="fa-regular fa-eye icon" onclick="togglePassword('password', 'toggleIcon1')"
                     id="toggleIcon1"></i>
@@ -165,16 +222,15 @@
 
             <!-- Confirm password field with show/hide icon -->
             <div class="input-field">
-                <input type="password" id="confirmPassword" required>
+                <input type="password" id="confirmPassword" name="u_RPpass" required>
                 <label>Repeat your password</label>
                 <i class="fa-regular fa-eye icon" onclick="togglePassword('confirmPassword', 'toggleIcon2')"
                     id="toggleIcon2"></i>
             </div>
 
             <input type="submit" class="button" name="SignUp" value="Sign Up">
-
             <div class="register">
-                <p>Already have an account? <a href="login.html">Login</a></p>
+                <p>Already have an account? <a href="login.php">Login</a></p>
             </div>
         </form>
     </div>
